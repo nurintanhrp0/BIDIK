@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.keanggotaan.Keanggotaan"
+    android:background="@android:color/white">
+
+    <LinearLayout
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/txtNama"
+            android:paddingVertical="10dp"
+            android:text="Nama"
+            android:textColor="@color/colorPrimaryDark"
+            android:paddingHorizontal="10dp"
+            android:textSize="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_dark">
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtNohp"
+            android:layout_marginTop="20dp"
+            android:paddingVertical="10dp"
+            android:text="No Handphone"
+            android:textColor="@color/colorPrimaryDark"
+            android:paddingHorizontal="10dp"
+            android:textSize="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_dark">
+        </TextView>
+
+        <TextView
+            android:id="@+id/txtExp"
+            android:layout_marginTop="20dp"
+            android:paddingVertical="10dp"
+            android:text="Exp"
+            android:textColor="@color/colorPrimaryDark"
+            android:paddingHorizontal="10dp"
+            android:textSize="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border_dark">
+        </TextView>
+
+        <Button
+            android:id="@+id/btnPerpanjang"
+            android:paddingVertical="18dp"
+            android:textAllCaps="false"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Perpanjang Keanggotaan"
+            android:textColor="@android:color/white"
+            android:background="@drawable/border"></Button>
+
+        <Button
+            android:id="@+id/btnLogoutout"
+            android:paddingVertical="0dp"
+            android:textAllCaps="false"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Log Out"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:textColor="@android:color/white"
+            android:background="@drawable/border_red"></Button>
+
+    </LinearLayout>
+
+</FrameLayout>

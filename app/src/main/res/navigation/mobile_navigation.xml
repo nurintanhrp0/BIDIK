@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.bidik.app.ui.home.HomeFragment"
+        android:label="@string/menu_search"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"
+            app:destination="@id/nav_home_second" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_home_second"
+        android:name="com.bidik.app.ui.detail.Detail"
+        android:label="@string/home_second"
+        tools:layout="@layout/detail_fragment">
+        <action
+            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"
+            app:destination="@id/nav_home" />
+
+        <argument
+            android:name="myArg"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_data_saya"
+        android:name="com.bidik.app.ui.data_saya.DataSaya"
+        android:label="@string/menu_data_saya"
+        tools:layout="@layout/data_saya_fragment" />
+
+    <fragment
+        android:id="@+id/nav_unit_terhapus"
+        android:name="com.bidik.app.ui.unit_terhapus.UnitTerhapus"
+        android:label="@string/menu_unit_terhapus"
+        tools:layout="@layout/unit_terhapus_fragment" />
+
+    <fragment
+        android:id="@+id/nav_perbaharui_data"
+        android:name="com.bidik.app.ui.perbaharui_data.PerbaharuiData"
+        android:label="@string/menu_sync"
+        tools:layout="@layout/perbaharui_data_fragment" />
+
+    <fragment
+        android:id="@+id/nav_daftar_leasing"
+        android:name="com.bidik.app.ui.daftar_leasing.DaftarLeasing"
+        android:label="@string/menu_leasing"
+        tools:layout="@layout/daftar_leasing_fragment" />
+
+    <fragment
+        android:id="@+id/nav_keanggotaan"
+        android:name="com.bidik.app.ui.keanggotaan.Keanggotaan"
+        android:label="@string/menu_keanggotaan"
+        tools:layout="@layout/keanggotaan_fragment" />
+
+</navigation>

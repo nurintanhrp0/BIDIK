@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.perbaharui_data.PerbaharuiData"
+    android:background="@android:color/white">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="vertical"
+       android:layout_marginTop="20dp"
+       android:layout_marginHorizontal="20dp">
+
+       <Button
+           android:id="@+id/btnPerbaharui"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@drawable/border"
+           android:backgroundTint="@color/colorPrimaryDark"
+           android:text="Perbaharui Data Sekarang"
+           android:textColor="@android:color/white"
+           android:textAllCaps="false">
+       </Button>
+       
+       <TextView
+           android:textSize="15dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Otomatis perbaharui data setiap pukul"
+           android:textColor="@color/colorPrimaryDark"
+           android:layout_gravity="center_horizontal"
+           android:layout_marginTop="40dp">
+       </TextView>
+
+       <TextView
+           android:id="@+id/txtJam"
+           android:textSize="15dp"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:background="@drawable/border_dark"
+           android:text="00:00"
+           android:textColor="@color/colorPrimaryDark"
+           android:paddingVertical="10dp"
+           android:paddingHorizontal="20dp"
+           android:layout_marginTop="15dp"
+           android:layout_gravity="center_horizontal">
+       </TextView>
+
+       <Button
+           android:id="@+id/btnSimpan"
+           android:layout_marginTop="10dp"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:background="@drawable/border"
+           android:backgroundTint="@color/colorPrimaryDark"
+           android:text="Simpan Setting"
+           android:textColor="@android:color/white"
+           android:textAllCaps="false">
+       </Button>
+
+   </LinearLayout>
+
+</FrameLayout>

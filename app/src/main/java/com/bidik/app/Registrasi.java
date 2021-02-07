@@ -1,0 +1,252 @@
+package com.bidik.app;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+
+public class Registrasi extends AppCompatActivity {
+
+    ImageView btnClose;
+    Button btnDaftar;
+    EditText inpNama, inpNohp, inpPwd;
+    Spinner sp_kategori;
+    String sNama, sNohp, sKategori, sPwd;
+    JSONParser jsonParser = new JSONParser();
+    ProgressDialog pDialog;
+    String urlRegia, defaultUrl, dataUrl;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+    String[] kategori = {"Motor", "Mobil", "Motor dan Mobil"};
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_registrasi);
+
+        sharedPreferences = getSharedPreferences("bidik", 0);
+        editor = sharedPreferences.edit();
+
+        defaultUrl = ((Bidik) getApplication()).getUrl();
+        dataUrl = ((Bidik) getApplication()).getUrlData();
+        urlRegia = defaultUrl + "doregis.html";
+
+        btnClose = findViewById(R.id.btnClose);
+        btnDaftar = findViewById(R.id.btnDaftar);
+        inpNama = findViewById(R.id.inpNama);
+        inpNohp = findViewById(R.id.inpNohp);
+        sp_kategori = findViewById(R.id.sp_kategori);
+        inpPwd = findViewById(R.id.inpPwd);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Registrasi.this, android.R.layout.simple_spinner_item, kategori);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp_kategori.setAdapter(adapter);
+
+        sp_kategori.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(getResources().getColor(android.R.color.black));
+
+                sKategori = ((TextView) parent.getChildAt(0)).getText().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), Welcome.class);
+                startActivity(intent);
+            }
+        });
+
+        btnDaftar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sNama = inpNama.getText().toString();
+                sNohp = inpNohp.getText().toString();
+                sPwd = inpPwd.getText().toString();
+                new DoRegis().execute();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), Welcome.class);
+        startActivity(intent);
+    }
+
+    private class DoRegis extends AsyncTask<String, Void, JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(String... strings) {
+
+            ArrayList params = new ArrayList();
+
+            params.add(new BasicNameValuePair("noHp", sNohp));
+            params.add(new BasicNameValuePair("nama", sNama));
+            params.add(new BasicNameValuePair("kategori", sKategori));
+            params.add(new BasicNameValuePair("pwd", sPwd));
+
+            JSONObject jsonObject = jsonParser.makeHttpRequest(urlRegia, "POST", params);
+
+            return jsonObject;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog = new ProgressDialog(Registrasi.this);
+            pDialog.setMessage("Loading ...");
+            pDialog.setIndeterminate(false);
+            pDialog.setCancelable(true);
+            pDialog.show();
+
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject result) {
+            if ((pDialog != null) && (pDialog.isShowing()))
+                pDialog.dismiss();
+            pDialog = null;
+
+            try {
+                if (result != null){
+                    if (result.getInt("error") == 1){
+                        Toast.makeText(getApplicationContext(), "Tidak dapat mengambil data dari server", Toast.LENGTH_LONG).show();
+                    }else {
+                        if (result.getInt("error") == 2){
+                            Toast.makeText(Registrasi.this, "Nomor Handphone ini telah terdaftar sebagai member!", Toast.LENGTH_SHORT).show();
+                        }else {
+                            JSONObject data = new JSONObject();
+                            JSONArray daftarlcl = new JSONArray();
+                            if (result.has("data")) {
+                                JSONArray datadb = new JSONArray(result.getString("data"));
+                                if (datadb.length() > 0) {
+                                    for (int j = 0; j < datadb.length(); j++) {
+                                        final JSONObject daftar = datadb.getJSONObject(j);
+                                        JSONObject object = new JSONObject();
+
+                                        object.put("id_leasing", daftar.getString("id_leasing"));
+                                        object.put("tanggal", daftar.getString("tanggal"));
+                                        object.put("jenis", daftar.getString("jenis"));
+                                        object.put("customer", daftar.getString("customer"));
+                                        object.put("no_polisi", daftar.getString("no_polisi"));
+                                        object.put("model_kendaraan", daftar.getString("model_kendaraan"));
+                                        object.put("warna_kendaraan", daftar.getString("warna_kendaraan"));
+                                        object.put("no_rangka", daftar.getString("no_rangka"));
+                                        object.put("no_mesin", daftar.getString("no_mesin"));
+                                        object.put("sisa_tagihan", daftar.getString("sisa_tagihan"));
+                                        object.put("jatuh_tempo", daftar.getString("jatuh_tempo"));
+                                        object.put("over_due", daftar.getString("over_due"));
+                                        object.put("status", daftar.getString("status"));
+                                        object.put("lock", daftar.getString("lock"));
+                                        object.put("catatan", "null");
+                                        object.put("terhapus", "0");
+                                        object.put("simpan", "0");
+
+                                        daftarlcl.put(object);
+
+                                    }
+                                    data.put("data", daftarlcl);
+                                    savetolocal(data, "data_kendaraan");
+                                }
+                            }
+
+
+                            data = new JSONObject();
+                            daftarlcl = new JSONArray();
+                            if (result.has("leasing")) {
+                                JSONArray db = new JSONArray(result.getString("leasing"));
+                                if (db.length() > 0) {
+                                    for (int j = 0; j < db.length(); j++) {
+                                        final JSONObject daftar = db.getJSONObject(j);
+                                        JSONObject object = new JSONObject();
+
+                                        object.put("id", daftar.getString("id"));
+                                        object.put("nama", daftar.getString("nama"));
+                                        object.put("alamat", daftar.getString("alamat"));
+                                        object.put("kota", daftar.getString("kota"));
+                                        object.put("contact_person", daftar.getString("contact_person"));
+                                        object.put("no_hp", daftar.getString("no_hp"));
+                                        object.put("status", daftar.getString("status"));
+
+                                        daftarlcl.put(object);
+
+                                    }
+                                    data.put("data", daftarlcl);
+                                    savetolocal(data, "data_leasing");
+                                }
+                            }
+
+
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            editor.putString("noHp", result.getString("noHp"));
+                            editor.putString("exp", result.getString("exp"));
+                            editor.putString("kategori", result.getString("kategori"));
+                            editor.putString("nama", result.getString("nama"));
+                            editor.putInt("id", result.getInt("id"));
+                            editor.putString("expe", result.getString("expe"));
+                            editor.putInt("berhenti", 0);
+                            editor.apply();
+                            startActivity(intent);
+                        }
+                    }
+                }else {
+                    //Toast.makeText(getApplicationContext(), "Ups! Menu yang kamu pilih belum tersedia di outlet ini.", Toast.LENGTH_LONG).show();
+                }
+            } catch (JSONException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void savetolocal(JSONObject data, String nama) {
+        try {
+            String isi = data.toString();
+
+            FileOutputStream fOut = null;
+            try  {
+                fOut = openFileOutput(nama + ".json", MODE_PRIVATE);
+                fOut.write(isi.getBytes());
+                fOut.close();
+                //display file saved message
+                Log.d("ssaved", "File saved successfully on " + getFilesDir());
+                //Toast.makeText(getBaseContext(), "File saved successfully on " + getFilesDir(),
+                //         Toast.LENGTH_SHORT).show();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

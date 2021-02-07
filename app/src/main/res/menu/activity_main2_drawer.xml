@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/search"
+            android:title="@string/menu_search" />
+        <item
+            android:id="@+id/nav_data_saya"
+            android:icon="@drawable/data_saya"
+            android:title="@string/menu_data_saya" />
+        <item
+            android:id="@+id/nav_unit_terhapus"
+            android:icon="@drawable/unit_terhapus"
+            android:title="@string/menu_unit_terhapus" />
+        <item
+            android:id="@+id/nav_perbaharui_data"
+            android:icon="@drawable/sync"
+            android:title="@string/menu_sync" />
+        <item
+            android:id="@+id/nav_daftar_leasing"
+            android:icon="@drawable/leasing"
+            android:title="@string/menu_leasing" />
+        <item
+            android:id="@+id/nav_keanggotaan"
+            android:icon="@drawable/keanggotaan"
+            android:title="@string/menu_keanggotaan" />
+        <item
+            android:visible="false"
+            android:id="@+id/nav_out"
+            android:icon="@drawable/icc_out"
+            android:title="Log Out" />
+    </group>
+</menu>
